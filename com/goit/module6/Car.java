@@ -15,45 +15,28 @@ public class Car {
         return engine;
 
     }
-    public boolean start() {
+
+    public boolean selfTest(Driver driver, Key key) throws DriverOrKeyAbsentException,DriverisNotFastenedException, DoorsAreNotClosedException, FuelIsNotChargedException, FuelIsNotPetrolException {
+        if ((driver.driverIsPresent == false) | (key.keyPresent() == false)) {
+            throw new DriverOrKeyAbsentException();
+        }
+        System.out.println("Prerequisites ot start the car are met, let's do it!");
         Fuel f = new Fuel(10, true);
-        Driver d = new Driver();
-        Key k = new Key();
-        Door dlf = new Door("Left Front", true);
-        Door dlb = new Door("Left back", false);
-        Door drf = new Door("Right Front",true);
-        Door drb = new Door("Right Back", false);
-
-        try
-        { engine.start(1);
-            if (f.isFuelCharged() == false) {
-                throw new CarException("No fuel","01");
-            }
-            else if (d.buckleUP() == true) {
-                throw new CarException("Driver's seatbelt not fastened", "02");
-            }
-            else if (d.driverIsPresent == false){
-            throw new CarException("Driver is absent", "03");
-             }
-            else if (k.keyPresent() == false) {
-                throw new CarException("Key is absent", "04");
-            }
-            else if (dlf.getDoorState() == false){
-                throw new CarException("Left fromt door is opened", "05");
-            }
-            else if (dlb.getDoorState() == false){
-                throw new CarException("Left back door is opened", "06");
-            }
-            else if (drf.getDoorState() == false){
-                throw new CarException("Right fromt door is opened", "07");
-            }
-            else if (drb.getDoorState() == false){
-                throw new CarException("Right back door is opened", "05");
-            }
-        } catch (CarException e) {
-            e.printStackTrace();
-        }
-        return this.engine.start(1);
+        Driver d = new Driver(true);
+        Door doorLeftFront = new Door("Left Front", true);
+        Door doorLeftBack = new Door("Left back", false);
+        Door doorRightFront = new Door("Right Front", true);
+        Door doorRightBack = new Door("Right Back", false);
+        if (d.buckleUP() == false) {
+            throw new DriverisNotFastenedException();
+        } else if ((doorLeftFront.isDoorClosed() == false) || (doorLeftBack.isDoorClosed() == false) || (doorRightFront.isDoorClosed() == false) || (doorRightBack.isDoorClosed() == false)) {
+            throw new DoorsAreNotClosedException();
+        } else if (f.isFuelCharged() == false) {
+            throw new FuelIsNotChargedException();
+        } else if (f.fuellIsPeterol() == false) {
+            throw new FuelIsNotPetrolException();
 
         }
+        return true;
+    }
     }

@@ -4,7 +4,11 @@ public class Fuel {
     private double fuelVolume;
     private boolean fuelCharged = true;
     private String fuelType;
+    private boolean isPeterol;
 
+    public boolean fuellIsPeterol() {
+        return isPeterol;
+    }
 
     public Fuel(double fuelVolume, boolean fuelCharged) {
         this.fuelVolume = fuelVolume;
